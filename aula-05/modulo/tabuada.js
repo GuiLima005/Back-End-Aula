@@ -15,13 +15,12 @@ const calcularTabuada = function (multiplicando, maxMultiplicador) {
     let resultado
     let status = true
 
+
     if (tabuada == 0 || maxContador == 0) {
         status = false
     } else if (isNaN(tabuada) || isNaN(maxContador)) {
         status = false
-    }
-
-    else {
+    } else {
         // while (cont <= maxContador) {
         //resultado = tabuada * cont
         // 2x0=0
