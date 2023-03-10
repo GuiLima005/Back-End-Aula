@@ -22615,13 +22615,13 @@ const getCapitalPais = function () {
 console.log(getCapitalPais())
 console.log('\n')
 
-const getCidades = function (siglaDoEstado) {
+const getCidades = function (siglaEstado) {
    let cidadesJson = {}
    let arrayCidades = []
 
    estadosCidades.estados.forEach(estados => {
 
-      if (siglaDoEstado == estados.sigla) {
+      if (siglaEstado == estados.sigla) {
          cidadesJson.uf = estados.sigla
          cidadesJson.descricao = estados.nome
          cidadesJson.quantidade_cidades = estados.cidades.length
@@ -22636,3 +22636,12 @@ const getCidades = function (siglaDoEstado) {
 }
 
 console.log(getCidades('AC'));
+
+module.exports = {
+   getListaDeEstados, 
+   getDadosEstados, 
+   getCapitalEstado,
+   getEstadosRegiao,
+   getCapitalPais,
+   getCidades
+}
