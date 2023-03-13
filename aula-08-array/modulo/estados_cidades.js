@@ -22515,8 +22515,8 @@ const getListaDeEstados = function () {
    siglasJSON = { uf: uf, quantidade: estadosCidades.estados.length }
    return siglasJSON
 }
-console.log(getListaDeEstados());
-console.log('\n')
+// console.log(getListaDeEstados());
+// console.log('\n')
 
 const getDadosEstados = function (siglaEstado) {
 
@@ -22541,8 +22541,8 @@ const getDadosEstados = function (siglaEstado) {
       return status
    }
 }
-console.log(getDadosEstados('BA'));
-console.log('\n')
+// console.log(getDadosEstados('KA'));
+// console.log('\n')
 
 const getCapitalEstado = function (siglaEstado) {
 
@@ -22567,8 +22567,8 @@ const getCapitalEstado = function (siglaEstado) {
       return status
    }
 }
-console.log(getCapitalEstado('SP'));
-console.log('\n')
+// console.log(getCapitalEstado('SP'));
+// console.log('\n')
 
 const getEstadosRegiao = function (nomeRegiao) {
 
@@ -22587,8 +22587,8 @@ const getEstadosRegiao = function (nomeRegiao) {
 
    return dadoDaRegiaoJSON
 }
-console.log(getEstadosRegiao('Sul'));
-console.log('\n')
+// console.log(getEstadosRegiao('Sul'));
+// console.log('\n')
 
 const getCapitalPais = function () {
 
@@ -22612,8 +22612,8 @@ const getCapitalPais = function () {
    return arrayCapitais.length != 0 ? listaDasCapitaisJSON : false
 
 }
-console.log(getCapitalPais())
-console.log('\n')
+// console.log(getCapitalPais())
+// console.log('\n')
 
 const getCidades = function (siglaEstado) {
    let cidadesJson = {}
@@ -22635,7 +22635,7 @@ const getCidades = function (siglaEstado) {
    return arrayCidades.length != 0 ? cidadesJson : false
 }
 
-console.log(getCidades('AC'));
+// console.log(getCidades('AC'));
 
 module.exports = {
    getListaDeEstados, 
