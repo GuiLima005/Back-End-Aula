@@ -45,11 +45,15 @@ app.use((request, response, next) => {
 * Data: 14/04/2023
 ****************************************************************************/
 
-// EndPoint: Retorna todos os dados de alunos 
-app.get('/v1/lion-school/aluno', cors(), async function (request, response) {
+    // Criando uma const para realizar o processo de padronização de dados que vão chegar no body da requisição
+    const bodyJSON = bodyParser.json()
 
     // Import da controller do Aluno
-    let controllerAluno = require('./controller/controller_aluno.js')
+    var controllerAluno = require('./controller/controller_aluno.js')
+    // const controller_aluno = require('./controller/controller_aluno.js')
+
+// EndPoint: Retorna todos os dados de alunos 
+app.get('/v1/lion-school/aluno', cors(), async function (request, response) {
 
     // Solicita a controller que retorne todos os alunos do BD (banco de dados)
     let dados = await controllerAluno.selecionarTodosAluno()
@@ -71,8 +75,20 @@ app.get('/v1/lion-school/aluno/:id', cors(), async function (request, response) 
 })
 
 // EndPoint: Inserir um novo aluno
-app.post('/v1/lion-school/aluno', cors(), async function (request, response) {
+app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function (request, response) {
 
+    // Recebe os dados encaminhados da requisição
+    let dadosBody = request.body   
+    
+    // Verificar se os dados estão chegando
+    // console.log(dadosBody);
+
+    // Envia os dados para a controller
+    let resultInsertDados = await controllerAluno.inserirAluno(dadosBody)    
+
+    // Retorna o status code e a message
+    response.status(resultInsertDados.status)
+    response.json(resultInsertDados)
 })
 
 // EndPoint: Atualiza um aluno pelo ID
