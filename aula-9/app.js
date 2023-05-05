@@ -52,6 +52,8 @@ app.use((request, response, next) => {
     var controllerAluno = require('./controller/controller_aluno.js')
     // const controller_aluno = require('./controller/controller_aluno.js')
 
+    var message = require('./controller/modulo/config')
+
 // EndPoint: Retorna todos os dados de alunos 
 app.get('/v1/lion-school/aluno', cors(), async function (request, response) {
 
@@ -77,6 +79,10 @@ app.get('/v1/lion-school/aluno/:id', cors(), async function (request, response) 
 // EndPoint: Inserir um novo aluno
 app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function (request, response) {
 
+    let contentType = request.headers['content-type']
+
+    if (String(contentType).toLowerCase == 'application/json') {
+        
     // Recebe os dados encaminhados da requisição
     let dadosBody = request.body   
     
@@ -89,16 +95,52 @@ app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function (request, res
     // Retorna o status code e a message
     response.status(resultInsertDados.status)
     response.json(resultInsertDados)
+
+    } else {
+        response.status(message.ERRO_INVALID_CONTENT_TYPE.status)
+        response.json(message.ERRO_INVALID_CONTENT_TYPE)
+
+    }
+
+
+    console.log(contentType);
+    
+
 })
 
 // EndPoint: Atualiza um aluno pelo ID
-app.put('/v1/lion-school/aluno/:id', cors(), async function (request, response) {
+app.put('/v1/lion-school/aluno/:id', cors(), bodyJSON, async function (request, response) {
+
+
+
+
+    // Recebe os dados do body
+    let dadosBody = request.body
+
+    // Recebe o ID do aluno
+    let idAluno = request.params.id
+
+    // Encaminha os dados para serem atualizados
+    let resultUpdateDados = await controllerAluno.atualizarAluno(dadosBody, idAluno)
+
+    response.status(resultUpdateDados.status)
+    response.json(resultUpdateDados)
+
+
 
 })
 
 // EndPoint: Exclui um aluno pelo ID
 app.delete('/v1/lion-school/aluno/:id', cors(), async function (request, response) {
 
+    // Recebe o ID do aluno
+    let idAluno = request.params.id
+
+    // Encaminha o ID para ser deletado
+    let resultDeleteDados = await controllerAluno.deletarAluno(idAluno)
+
+    response.status(resultDeleteDados.status)
+    response.json(resultDeleteDados)
 })
 
 // Permite carregar os endpoint criados e aguadar as requisições

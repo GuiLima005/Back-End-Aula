@@ -29,7 +29,8 @@ const insertAluno = async function (dadosAluno) {
                                        '${dadosAluno.email}'
                                       )`
 
-    console.log(sql);
+    // Verificar os dados que estão chegando
+    // console.log(sql);
     
 
     // Executa o script SQL no BD (Banco de Dados) e recebemos o retorno se deu certo ou não
@@ -49,13 +50,41 @@ const insertAluno = async function (dadosAluno) {
 }
 
 // Atualizar um novo Registro no Banco de Dados
-const updateAluno = function (dadosAluno) {
+const updateAluno = async function (dadosAluno) {
 
+    let sql = `update tbl_aluno set
+                    nome = '${dadosAluno.nome}',
+                    rg = '${dadosAluno.rg}',
+                    cpf = '${dadosAluno.cpf}',
+                    data_nascimento = '${dadosAluno.data_nascimento}',
+                    email = '${dadosAluno.email}'
+                    where id = '${dadosAluno.id}'  
+    `
+    // Executa o script no banco de dados 
+    let result = await prisma.$executeRawUnsafe(sql)
+
+    if (result) {
+        return true 
+    } else {
+        return false
+    }
 }
 
 // Excluir um Registro do Banco de dados
-const deleteAluno = function (id) {
+const deleteAluno = async function (idAluno) {
 
+    let sql = `delete from tbl_aluno 
+               where id = '${idAluno}'
+    `
+
+    // Executa o script no banco de dados 
+    let result = await prisma.$executeRawUnsafe(sql)
+
+    if (result) {
+        return true 
+    } else {
+        return false
+    }
 }
 
 // Retorna todos os Registo do Banco de Dados
@@ -94,5 +123,7 @@ const selectByIdAluno = function (id) {
 module.exports = {
     selectAllAluno,
     insertAluno,
+    updateAluno,
+    deleteAluno,
 
 }
