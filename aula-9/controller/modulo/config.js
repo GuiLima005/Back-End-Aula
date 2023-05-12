@@ -13,7 +13,9 @@ const ERRO_REQUIRED_ID = { status: 400, message: 'O atributo ID é obrigatorio n
 
 const ERRO_INTERNAL_SERVER = { status: 500, message: 'O servidor encontrou uma condição inesperada que o impediu de atender à solicitação.' }
 
-const ERRO_INVALID_CONTENT_TYPE = { status: 415, message: 'gfdgfdgfdgdfgfdgdfgdfgdfgdg.' }
+const ERRO_INVALID_CONTENT_TYPE = { status: 415, message: 'O tipo de mídia Content-type da solicitação não é compatível com o servidor.' }
+
+const ERRO_NOT_FOUND = { status: 404, message: 'Nenhum registro encontrado na requisição' }
 
 
 
@@ -27,8 +29,7 @@ const UPDATE_ITEM = {status: 201, message: 'Registro atualizado com sucesso.'}
 
 const DELETE_ITEM = {status: 201, message: 'Registro deletado com sucesso.'}
 
-
-
+// Import das variaveis ou funções
 module.exports = {
     ERRO_REQUIRED_DATA,
     ERRO_INTERNAL_SERVER,
@@ -37,4 +38,5 @@ module.exports = {
     UPDATE_ITEM,
     DELETE_ITEM,
     ERRO_INVALID_CONTENT_TYPE,
+    ERRO_NOT_FOUND,
 }

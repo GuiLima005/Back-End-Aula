@@ -43,9 +43,7 @@ const insertAluno = async function (dadosAluno) {
         return true
     } else {
         return false
-    }
-
-    
+    }  
 
 }
 
@@ -110,20 +108,76 @@ const selectAllAluno = async function () {
     } else {
         return false
     }
-    
 
 }
 
 // Retorna um Registro filtrado pelo ID do Banco de Dados
-const selectByIdAluno = function (id) {
+const selectByIdAluno = async function (idAluno) {
+
+     // Variavel com scriptSQL para executar no BD (banco de dados)
+     let sql = `select * from tbl_aluno where id = ${idAluno}`
+
+     /*****************************************************************************************************************
+    * $queryRawUnsafe() é utilizado quando o scriptSQL esta em uma variavel
+    * $queryRaw() é utilizado quando passar o script direto no metodo (Ex: $queryRaw('select * from tbl_aluno'))  
+    ******************************************************************************************************************/
+    
+    // Executa no BD(banco de dados) o scriptSQl
+    let rsAluno = await prisma.$queryRawUnsafe(sql)
+
+    // Verificar se o dados estão chegando
+    // console.log(rsAluno);
+    
+    // Valida se o BD(banco de dados) retornou algum registro
+    if(rsAluno.length > 0) {
+        return rsAluno
+    } else {
+        return false
+    }
 
 }
 
+// Retorna o registro do último ID da tabela
+const selectLastId = async function () {
 
+    let sql = 'select id from tbl_aluno order by id desc limit 1'
+
+    let rsAluno = await prisma.$queryRawUnsafe(sql)
+
+    if (rsAluno.length > 0) {
+        return rsAluno[0].id
+        
+    } else {
+        return false
+    }
+
+}
+
+// Retorna o registro da tabela pelo filtro do nome 
+const selectLastName = async function() {
+
+
+    let sql = `select * from tbl_aluno where nome like '%${nome}%';`
+
+    let rsAluno = await prisma.$queryRawUnsafe(sql)
+
+    if (rsAluno.length > 0) {
+        return rsAluno[0].id
+        
+    } else {
+        return false
+    }
+
+}
+
+// Import das variaveis ou funções
 module.exports = {
     selectAllAluno,
     insertAluno,
     updateAluno,
     deleteAluno,
+    selectByIdAluno,
+    selectLastId,
+    selectLastName
 
 }

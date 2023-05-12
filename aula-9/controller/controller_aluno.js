@@ -29,7 +29,19 @@ const inserirAluno = async function(dadosAluno) {
        let status = await alunoDAO.insertAluno(dadosAluno)       
 
        if (status) {
-        return message.CREAT_ITEM  
+
+        let dadosJSON = {}
+        
+        let alunoNovoId = await alunoDAO.selectLastId()
+        dadosAluno.id = alunoNovoId
+
+        dadosJSON.status = message.CREAT_ITEM.status
+
+        dadosJSON.aluno = dadosAluno
+
+        return dadosJSON
+        
+
        } else {
            return message.ERRO_INTERNAL_SERVER
        }
@@ -64,7 +76,19 @@ const atualizarAluno = async function(dadosAluno, idAluno) {
     let status = await alunoDAO.updateAluno(dadosAluno)
 
     if (status) {
-        return message.UPDATE_ITEM
+
+        let dadosJSON = {}
+
+        dadosJSON.status = message.UPDATE_ITEM.status
+
+        dadosJSON.aluno = dadosAluno
+
+        // Verificar se o dados estão chegando
+
+        console.log(dadosJSON);
+        
+
+        return dadosJSON
 
     } else {
         return message.ERRO_INTERNAL_SERVER
@@ -108,23 +132,67 @@ const selecionarTodosAluno = async function() {
 
     // Valida se o BD(banco de dados) teve registros
     if (dadosAluno) {
+
+        // Retorna o status code 200 (solicitação foi bem-sucedida.)
+        dadosJSON.status = 200
+
+        // Retorna a quantidade de registro encontrados
+        dadosJSON.count = dadosAluno.length
+
         // Adiciona o array de alunos e um JSON para retornar o app
         dadosJSON.alunos = dadosAluno
+
         return dadosJSON
+
     } else {
-        return false
+        return message.ERRO_NOT_FOUND
     }
 }
 
 // Função para buscar um item filtrando pelo ID, que será encaminhado para a model
-const BuscarIdAluno = function(id) {
+const buscarIdAluno = async function(idAluno) {
+
+    // Validação do ID
+    if (idAluno == '' || idAluno == undefined || isNaN(idAluno)) {
+        return message.ERRO_REQUIRED_ID
+
+    } else {
+
+    // Solicita ao DAO o aluno pelo ID do BD (banco de dados)
+    let dadosAluno = await alunoDAO.selectByIdAluno(idAluno)
+
+    // Verificar se o dados estão chegando
+    // console.log(dadosAluno);
+
+    // Cria um objeto do tipo JSON
+    let dadosJSON = {}
+
+    // Valida se o BD(banco de dados) teve registros
+    if (dadosAluno) {
+
+        // Retorna o status code 200 = solicitação foi bem-sucedida.
+        dadosJSON.status = 200
+
+        // Adiciona o array de alunos e um JSON para retornar o app
+        dadosJSON.alunos = dadosAluno
+
+        return dadosJSON
+
+    } else {
+        return message.ERRO_NOT_FOUND
+    }
+    
+    }
+
+  
 
 }
 
-
+// Import das variaveis ou funções
 module.exports = {
     selecionarTodosAluno,
     inserirAluno,
     atualizarAluno,
     deletarAluno,
+    buscarIdAluno
 }

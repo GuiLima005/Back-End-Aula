@@ -60,19 +60,22 @@ app.get('/v1/lion-school/aluno', cors(), async function (request, response) {
     // Solicita a controller que retorne todos os alunos do BD (banco de dados)
     let dados = await controllerAluno.selecionarTodosAluno()
 
-    // Valida se existem registros para retornar na requisição
-    if (dados) {
-        response.json(dados)
-        response.status(200)
-    } else {
-        response.json()
-        response.status(404)
-    }
+    response.status(dados.status)
+    response.json(dados)
 
 })
 
 // EndPoint: Retorna dados do aluno pelo ID 
 app.get('/v1/lion-school/aluno/:id', cors(), async function (request, response) {
+    
+    // Recebe o ID enviado na requisão
+    let IdAluno = request.params.id
+
+    // Solicita a controller que retorne todos os alunos do BD (banco de dados)
+    let dados = await controllerAluno.buscarIdAluno(IdAluno)
+
+    response.status(dados.status)
+    response.json(dados)
 
 })
 
@@ -81,7 +84,8 @@ app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function (request, res
 
     let contentType = request.headers['content-type']
 
-    if (String(contentType).toLowerCase == 'application/json') {
+    // Verificar o contentType
+    if (String(contentType).toLowerCase() == 'application/json') {
         
     // Recebe os dados encaminhados da requisição
     let dadosBody = request.body   
@@ -102,7 +106,6 @@ app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function (request, res
 
     }
 
-
     console.log(contentType);
     
 
@@ -110,9 +113,6 @@ app.post('/v1/lion-school/aluno', cors(), bodyJSON, async function (request, res
 
 // EndPoint: Atualiza um aluno pelo ID
 app.put('/v1/lion-school/aluno/:id', cors(), bodyJSON, async function (request, response) {
-
-
-
 
     // Recebe os dados do body
     let dadosBody = request.body
